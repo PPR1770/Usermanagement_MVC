@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - UserManagement</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+    <style>
+        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .auth-card { max-width: 420px; width: 100%; }
+        .brand-logo { font-size: 1.8rem; font-weight: 700; color: #fff; }
+    </style>
+</head>
+<body class="d-flex align-items-center justify-content-center py-5">
+    <div class="auth-card">
+        <div class="text-center mb-4">
+            <div class="brand-logo"><i class="bi bi-shield-lock-fill me-2"></i>UserMgmt</div>
+            <p class="text-white-50 mb-0">Identity Management System</p>
+        </div>
+        <div class="card shadow border-0 rounded-4">
+            <div class="card-body p-4">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

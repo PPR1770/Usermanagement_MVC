@@ -1,0 +1,94 @@
+@model IEnumerable<UserManagementApp.Models.ApplicationRole>
+@{
+    ViewData["Title"] = "Role Management";
+}
+
+<div class="row g-4">
+    <!-- Create Role Card -->
+    <div class="col-lg-4">
+        <div class="card border-0 shadow-sm rounded-3 h-100">
+            <div class="card-header bg-white border-0 pt-4 pb-0 px-4">
+                <h6 class="fw-bold mb-3"><i class="bi bi-plus-circle me-2 text-success"></i>Create New Role</h6>
+            </div>
+            <div class="card-body px-4 pb-4 pt-2">
+                <form asp-action="Create" method="post">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold small">Role Name <span class="text-danger">*</span></label>
+                        <input type="text" name="name" class="form-control" placeholder="e.g. Editor" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold small">Description</label>
+                        <textarea name="description" class="form-control" rows="2"
+                                  placeholder="Brief description..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100 fw-semibold">
+                        <i class="bi bi-plus-lg me-1"></i>Create Role
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Roles List -->
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm rounded-3">
+            <div class="card-header bg-white border-0 pt-4 pb-3 px-4">
+                <h5 class="fw-bold mb-0"><i class="bi bi-person-badge me-2 text-primary"></i>All Roles</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-4">Role Name</th>
+                                <th>Description</th>
+                                <th>Created</th>
+                                <th class="text-end pe-4">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var role in Model)
+                        {
+                            <tr>
+                                <td class="ps-4">
+                                    <span class="badge fs-6 bg-primary">@role.Name</span>
+                                </td>
+                                <td class="small text-muted">@(role.Description ?? "—")</td>
+                                <td class="small text-muted">@role.CreatedAt.ToString("MMM dd, yyyy")</td>
+                                <td class="text-end pe-4">
+                                    <a asp-action="ManagePermissions" asp-route-id="@role.Id"
+                                       class="btn btn-sm btn-outline-info me-1" title="Permissions">
+                                        <i class="bi bi-shield-check"></i>
+                                    </a>
+                                    <a asp-action="Edit" asp-route-id="@role.Id"
+                                       class="btn btn-sm btn-outline-warning me-1" title="Edit">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    @if (role.Name != "Admin")
+                                    {
+                                        <form asp-action="Delete" asp-route-id="@role.Id"
+                                              method="post" class="d-inline"
+                                              onsubmit="return confirm('Delete role @role.Name?')">
+                                            <button class="btn btn-sm btn-outline-danger" title="Delete">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                        @if (!Model.Any())
+                        {
+                            <tr>
+                                <td colspan="4" class="text-center text-muted py-5">
+                                    <i class="bi bi-inbox fs-1 d-block mb-2 opacity-25"></i>No roles found.
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

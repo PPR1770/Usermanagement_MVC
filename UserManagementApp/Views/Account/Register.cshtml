@@ -1,0 +1,80 @@
+@model UserManagementApp.ViewModels.RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+}
+
+<h5 class="fw-bold mb-1 text-center">Create Account</h5>
+<p class="text-muted text-center small mb-4">Fill in the details below</p>
+
+<form asp-action="Register" method="post">
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 small"></div>
+
+    <div class="row g-2 mb-3">
+        <div class="col">
+            <label asp-for="FirstName" class="form-label fw-semibold small"></label>
+            <input asp-for="FirstName" class="form-control" placeholder="John" />
+            <span asp-validation-for="FirstName" class="text-danger small"></span>
+        </div>
+        <div class="col">
+            <label asp-for="LastName" class="form-label fw-semibold small"></label>
+            <input asp-for="LastName" class="form-control" placeholder="Doe" />
+            <span asp-validation-for="LastName" class="text-danger small"></span>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label fw-semibold small"></label>
+        <div class="input-group">
+            <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope text-muted"></i></span>
+            <input asp-for="Email" class="form-control border-start-0 ps-0" placeholder="you@email.com" />
+        </div>
+        <span asp-validation-for="Email" class="text-danger small"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Password" class="form-label fw-semibold small"></label>
+        <div class="input-group">
+            <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock text-muted"></i></span>
+            <input asp-for="Password" class="form-control border-start-0 ps-0" placeholder="Min. 6 characters" id="passwordInput" />
+            <button type="button" class="btn btn-light border" onclick="togglePassword('passwordInput','eye1')">
+                <i class="bi bi-eye" id="eye1"></i>
+            </button>
+        </div>
+        <span asp-validation-for="Password" class="text-danger small"></span>
+    </div>
+
+    <div class="mb-4">
+        <label asp-for="ConfirmPassword" class="form-label fw-semibold small"></label>
+        <div class="input-group">
+            <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock-fill text-muted"></i></span>
+            <input asp-for="ConfirmPassword" class="form-control border-start-0 ps-0" placeholder="Repeat password" id="confirmInput" />
+            <button type="button" class="btn btn-light border" onclick="togglePassword('confirmInput','eye2')">
+                <i class="bi bi-eye" id="eye2"></i>
+            </button>
+        </div>
+        <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
+        <i class="bi bi-person-plus me-2"></i>Create Account
+    </button>
+
+    <hr class="my-3" />
+    <p class="text-center mb-0 small">
+        Already have an account?
+        <a asp-action="Login" class="text-primary fw-semibold text-decoration-none">Sign in</a>
+    </p>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function togglePassword(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+            input.type = input.type === 'password' ? 'text' : 'password';
+            icon.className = input.type === 'password' ? 'bi bi-eye' : 'bi bi-eye-slash';
+        }
+    </script>
+}
