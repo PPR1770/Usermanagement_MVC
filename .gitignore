@@ -1,0 +1,46 @@
+﻿# Build folders
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio
+.vs/
+
+# Rider / VS Code
+.idea/
+.vscode/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# NuGet
+*.nupkg
+packages/
+*.snupkg
+
+# Publish
+publish/
+wwwroot/dist/
+
+# Environment files
+.env
+
+# Node (if using frontend)
+node_modules/
+
+# Database
+*.mdf
+*.ldf
+
+# Temp files
+*.tmp
+*.cache

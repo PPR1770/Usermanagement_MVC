@@ -1,0 +1,105 @@
+@model IEnumerable<ChatApp.Models.ApplicationUser>
+@{
+    ViewData["Title"] = "User Management";
+}
+
+<div class="card border-0 shadow-sm rounded-3">
+    <div class="card-header bg-white border-0 pt-4 pb-3 px-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <h5 class="fw-bold mb-0"><i class="bi bi-people me-2 text-primary"></i>All Users</h5>
+            <form method="get" class="d-flex gap-2">
+                <input type="text" name="search" value="@ViewBag.Search"
+                       class="form-control form-control-sm" style="width:220px"
+                       placeholder="Search name or email..." />
+                <button type="submit" class="btn btn-sm btn-primary">
+                    <i class="bi bi-search"></i>
+                </button>
+                @if (!string.IsNullOrEmpty(ViewBag.Search))
+                {
+                    <a href="/User/Index" class="btn btn-sm btn-outline-secondary">Clear</a>
+                }
+            </form>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-4">User</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Created</th>
+                        <th class="text-end pe-4">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td class="ps-4">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="rounded-circle bg-primary text-white d-flex align-items-center
+                                            justify-content-center fw-bold"
+                                     style="width:36px;height:36px;font-size:14px;flex-shrink:0">
+                                    @user.FirstName.FirstOrDefault()@user.LastName.FirstOrDefault()
+                                </div>
+                                <div>
+                                    <div class="fw-semibold small">@user.FirstName @user.LastName</div>
+                                    <div class="text-muted" style="font-size:11px">@@user.UserName</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="small">@user.Email</td>
+                        <td>
+                            <span class="badge rounded-pill @(user.IsActive ? "bg-success" : "bg-secondary")">
+                                @(user.IsActive ? "Active" : "Inactive")
+                            </span>
+                        </td>
+                        <td class="small text-muted">@user.CreatedAt.ToString("MMM dd, yyyy")</td>
+                        <td class="text-end pe-4">
+                            <a asp-action="Details" asp-route-id="@user.Id"
+                               class="btn btn-sm btn-outline-info me-1" title="Details">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-action="Edit" asp-route-id="@user.Id"
+                                   class="btn btn-sm btn-outline-warning me-1" title="Edit">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <form asp-action="ToggleActive" asp-route-id="@user.Id"
+                                      method="post" class="d-inline">
+                                    <button class="btn btn-sm @(user.IsActive ? "btn-outline-secondary" : "btn-outline-success") me-1"
+                                            title="@(user.IsActive ? "Deactivate" : "Activate")">
+                                        <i class="bi @(user.IsActive ? "bi-toggle-on" : "bi-toggle-off")"></i>
+                                    </button>
+                                </form>
+                                <form asp-action="Delete" asp-route-id="@user.Id"
+                                      method="post" class="d-inline"
+                                      onsubmit="return confirm('Delete user @user.Email?')">
+                                    <button class="btn btn-sm btn-outline-danger" title="Delete">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="5" class="text-center text-muted py-5">
+                            <i class="bi bi-inbox fs-1 d-block mb-2 opacity-25"></i>
+                            No users found.
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer bg-white border-0 text-muted small px-4 py-3">
+        Showing @Model.Count() user(s)
+    </div>
+</div>

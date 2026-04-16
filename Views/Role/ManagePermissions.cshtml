@@ -1,0 +1,78 @@
+@using ChatApp.Models
+@{
+    ViewData["Title"] = "Manage Permissions";
+    var role = (ApplicationRole)ViewBag.Role;
+    var allPermissions = (List<Permission>)ViewBag.AllPermissions;
+    var rolePermissions = (List<int>)ViewBag.RolePermissions;
+    var grouped = allPermissions.GroupBy(p => p.Module);
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm rounded-3">
+            <div class="card-header bg-white border-0 pt-4 pb-0 px-4 d-flex justify-content-between align-items-start">
+                <div>
+                    <h5 class="fw-bold mb-1">
+                        <i class="bi bi-shield-check me-2 text-info"></i>Manage Permissions
+                    </h5>
+                    <p class="text-muted small mb-3">
+                        Role: <span class="badge bg-primary fs-6">@role.Name</span>
+                    </p>
+                </div>
+                <a asp-action="Index" class="btn btn-sm btn-light"><i class="bi bi-arrow-left me-1"></i>Back</a>
+            </div>
+            <div class="card-body p-4">
+                <form asp-action="SavePermissions" method="post">
+                    <input type="hidden" name="roleId" value="@role.Id" />
+
+                    @foreach (var group in grouped)
+                    {
+                        <div class="mb-4">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <span class="badge bg-secondary">@group.Key</span>
+                                <hr class="flex-grow-1 my-0" />
+                                <button type="button" class="btn btn-xs btn-link text-muted p-0 small"
+                                        onclick="toggleGroup('@group.Key')">Select All</button>
+                            </div>
+                            <div class="row g-2" id="group_@group.Key">
+                                @foreach (var perm in group)
+                                {
+                                    <div class="col-md-6">
+                                        <div class="form-check border rounded-2 p-3 h-100 @(rolePermissions.Contains(perm.Id) ? "border-primary bg-primary bg-opacity-10" : "")">
+                                            <input class="form-check-input group-@group.Key" type="checkbox"
+                                                   name="permissionIds" value="@perm.Id"
+                                                   id="perm_@perm.Id"
+                                                   @(rolePermissions.Contains(perm.Id) ? "checked" : "") />
+                                            <label class="form-check-label w-100" for="perm_@perm.Id">
+                                                <span class="fw-semibold small">@perm.Action</span>
+                                                @if (!string.IsNullOrEmpty(perm.Description))
+                                                { <br /><span class="text-muted" style="font-size:11px">@perm.Description</span> }
+                                            </label>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    <div class="d-flex gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary fw-semibold">
+                            <i class="bi bi-save me-1"></i>Save Permissions
+                        </button>
+                        <a asp-action="Index" class="btn btn-light">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+function toggleGroup(groupName) {
+    const checkboxes = document.querySelectorAll('.group-' + groupName);
+    const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+    checkboxes.forEach(cb => cb.checked = !allChecked);
+}
+</script>
+}
