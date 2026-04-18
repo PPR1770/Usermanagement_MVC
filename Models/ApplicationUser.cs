@@ -10,5 +10,6 @@ namespace ChatApp.Models
         public bool IsActive { get; set; } = true;
         public string? ProfilePicture { get; set; }
         public bool IsOnline { get; set; }
+        public DateTime? LastSeenAt { get; set; }
     }
 }

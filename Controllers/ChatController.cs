@@ -27,7 +27,8 @@ public class ChatController : Controller
                 x.Id,
                 x.UserName,
                 x.ProfilePicture,
-                IsOnline = x.IsOnline
+                IsOnline = x.IsOnline,
+                LastSeenAt = x.LastSeenAt
             })
             .ToList();
 

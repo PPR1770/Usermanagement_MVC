@@ -65,7 +65,7 @@ public class ChatHub : Hub
             await _context.SaveChangesAsync();
         }
 
-        await Clients.All.SendAsync("UserStatusChanged", userId, true);
+        await Clients.All.SendAsync("UserStatusChanged", userId, true,null);
 
         await base.OnConnectedAsync();
     }
@@ -78,11 +78,11 @@ public class ChatHub : Hub
         if (user != null)
         {
             user.IsOnline = false;
+            user.LastSeenAt = DateTime.UtcNow;
             await _context.SaveChangesAsync();
         }
 
-        await Clients.All.SendAsync("UserStatusChanged", userId, false);
-
+        await Clients.All.SendAsync("UserStatusChanged", userId, false, DateTime.UtcNow);
         await base.OnDisconnectedAsync(exception);
     }
 }

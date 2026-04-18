@@ -204,19 +204,19 @@ async function uploadFile() {
     return await res.json();
 }
 
-connection.on("UserStatusChanged", function (userId, isOnline) {
+connection.on("UserStatusChanged", function (userId, isOnline, lastSeenAt) {
 
     // update user list dot
     updateUserStatus(userId, isOnline);
 
     // update selected user header
     if (userId === selectedUserId) {
-        setSelectedUserStatus(isOnline);
+        setSelectedUserStatus(isOnline, lastSeenAt);
     }
 
     // update current user header
     if (userId === currentUserId) {
-        setCurrentUserStatus(isOnline);
+        setCurrentUserStatus(isOnline, lastSeen);
     }
 });
 
@@ -229,7 +229,7 @@ function updateUserStatus(userId, isOnline) {
     dot.classList.add(isOnline ? "online" : "offline");
 }
 
-function setSelectedUserStatus(isOnline) {
+function setSelectedUserStatus(isOnline,lastSeen) {
 
     let dot = document.getElementById("selectedStatusDot");
     let text = document.getElementById("onlineStatusText");
@@ -239,9 +239,28 @@ function setSelectedUserStatus(isOnline) {
     dot.classList.remove("online", "offline");
     dot.classList.add(isOnline ? "online" : "offline");
 
-    text.innerText = isOnline ? "Online" : "Offline";
-}
+    //text.innerText = isOnline ? "Online" : "Offline";
+    if (isOnline) {
 
+        text.innerText = "Online";
+
+    } else {
+
+        text.innerText =
+            "Last seen "
+            + formatLastSeen(lastSeen);
+    }
+}
+function formatLastSeen(date) {
+
+    if (!date)
+        return "";
+
+    let d =
+        new Date(date);
+
+    return d.toLocaleString();
+}
 function setCurrentUserStatus(isOnline) {
 
     let dot = document.getElementById("currentStatusDot");

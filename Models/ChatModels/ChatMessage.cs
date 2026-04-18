@@ -18,7 +18,7 @@
         // Optional (for next phases)
         public bool IsRead { get; set; } = false;
         public bool IsDelivered { get; set; } = false;
-
+      
         public string? FileUrl { get; set; }
         public string? FileType { get; set; } // image/pdf/video
         public string? FileName { get; set; }
