@@ -22,7 +22,8 @@ public class ChatHub : Hub
             Message = message,
             FileUrl = fileUrl,
             FileType = fileType,
-            FileName = fileName
+            FileName = fileName,
+            IsDelivered = true
         };
 
         _context.ChatMessages.Add(msg);

@@ -39,6 +39,7 @@ function loadUsers() {
 
             users.forEach(u => {
 
+                u.profileImage = u.profileImage || "/images/default-user.png";
                 html += `
                         <li onclick="selectUser('${u.id}', '${u.userName}', '${u.profileImage}')"
                             id="user-${u.id}">
@@ -66,7 +67,7 @@ function selectUser(userId, userName, profileImage) {
 
     document.getElementById("chatUserName").innerText = userName;
 
-    document.getElementById("selectedUserImg").src = profileImage;
+    document.getElementById("selectedUserImg").src = profileImage ?? "/images/default-user.png";
 
     //document.getElementById("onlineStatusText").innerText = "online" ; // placeholder for now
 
@@ -78,6 +79,12 @@ function renderMessage(msg) {
     let cls = msg.senderId === currentUserId ? "sent" : "received";
 
     let content = "";
+    let seenIcon = "";
+    if (msg.senderId === currentUserId) {
+        seenIcon = msg.isRead
+            ? "✔✔"
+            : msg.isDelivered ? "✔" : "";
+    }
 
     // TEXT
     if (msg.message) {
@@ -101,6 +108,9 @@ function renderMessage(msg) {
     let html = `
         <div class="message ${cls}">
             ${content}
+            <div class="message-time">
+                ${seenIcon}
+            </div>
         </div>
     `;
 
@@ -144,6 +154,7 @@ async function sendMessage() {
 
     document.getElementById("messageInput").value = "";
     document.getElementById("fileInput").value = "";
+    //removeSelectedFile();
 }
 
 // 🔹 Receive Message
@@ -242,6 +253,32 @@ function setCurrentUserStatus(isOnline) {
     dot.classList.add(isOnline ? "online" : "offline");
 
     text.innerText = isOnline ? "Online" : "Offline";
+}
+const fileInput = document.getElementById("fileInput");
+const filePreview = document.getElementById("filePreview");
+const fileName = document.getElementById("fileName");
+
+// Show selected file name
+fileInput.addEventListener("change", function () {
+
+    if (this.files.length > 0) {
+
+        const file = this.files[0];
+
+        fileName.innerText = file.name;
+
+        filePreview.style.display = "block";
+    }
+});
+
+// Remove selected file
+function removeSelectedFile() {
+
+    fileInput.value = "";
+
+    fileName.innerText = "";
+
+    filePreview.style.display = "none";
 }
 
 //if (!msg.trim()) return;

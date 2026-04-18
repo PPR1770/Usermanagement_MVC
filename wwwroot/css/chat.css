@@ -206,6 +206,8 @@
 .offline {
     background: #ff4444;
 }
+
+
 /* Mobile */
 @media (max-width: 768px) {
     .chat-wrapper {

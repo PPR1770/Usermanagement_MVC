@@ -3,7 +3,7 @@
 }
 
 <link href="~/css/chat.css" rel="stylesheet" />
-<div id="typingStatus" class="text-muted small"></div>
+
 
 <div class="chat-wrapper d-flex">
 
@@ -50,6 +50,7 @@
                         <span id="selectedStatusDot" class="status-dot offline"></span>
                         <small id="onlineStatusText">Offline</small>
                     </div>
+                    <div id="typingStatus" class="text-muted small"></div>
 
                 </div>
 
@@ -79,6 +80,12 @@
                     ➤
                 </button>
 
+            </div>
+
+            <!-- FILE PREVIEW (hidden until a file is chosen) -->
+            <div id="filePreview" style="display:none; margin-top:8px;">
+                <span id="fileName"></span>
+                <button type="button" onclick="removeSelectedFile()">✖</button>
             </div>
 
         </div>
