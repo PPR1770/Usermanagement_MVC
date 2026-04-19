@@ -30,36 +30,96 @@
         <hr />
 
         <h6 class="px-2">Chats</h6>
+        <h6 class="px-2">
+            Users
+        </h6>
         <!--  User List -->
         <ul id="userList" class="user-list"></ul>
+        <!--  Groups List -->
+        <hr />
+        <h6 class="px-2">
+            Groups
+        </h6>
+        <button onclick="createGroup()"
+                class="btn btn-sm btn-primary m-2">
+            Create Group
+        </button>
+        <ul id="groupList"></ul>
     </div>
 
     <!-- RIGHT CHAT -->
     <div class="chat-content d-flex flex-column">
 
         <div class="chat-header">
+            <div class="selected-user d-flex align-items-center justify-content-between">
+                <div class="selected-user d-flex align-items-center gap-2">
 
-            <div class="selected-user d-flex align-items-center gap-2">
+                    <img id="selectedUserImg" src="/images/default-user.png" class="avatar" />
 
-                <img id="selectedUserImg" src="/images/default-user.png" class="avatar" />
+                    <div>
+                        <div id="chatUserName">Select User</div>
 
-                <div>
-                    <div id="chatUserName">Select User</div>
+                        <div class="d-flex align-items-center gap-1">
+                            <span id="selectedStatusDot" class="status-dot offline"></span>
+                            <small id="onlineStatusText">Offline</small>
+                        </div>
+                        <div id="groupMemberContainer"
+                             class="member-info-wrapper"
+                             style="display:none;">
 
-                    <div class="d-flex align-items-center gap-1">
-                        <span id="selectedStatusDot" class="status-dot offline"></span>
-                        <small id="onlineStatusText">Offline</small>
+                            <span id="groupMemberInfo"
+                                  class="text-muted small">
+                                0 members
+                            </span>
+
+                            <div id="groupMembersTooltip"
+                                 style="
+                                display:none;
+                                position:absolute;
+                                top:28px;
+                                left:0;
+                                background:#fff;
+                                border:1px solid #ddd;
+                                padding:12px;
+                                border-radius:10px;
+                                box-shadow:0 4px 15px rgba(0,0,0,.15);
+                                min-width:180px;
+                                z-index:9999;">
+                            </div>
+
+                        </div>
+                        <div id="typingStatus" class="text-muted small"></div>
+
                     </div>
-                    <div id="typingStatus" class="text-muted small"></div>
 
                 </div>
 
+                <!-- GROUP ACTIONS -->
+                <div id="groupActions"
+                     style="display:none;">
+
+                    <button class="btn btn-sm btn-primary"
+                            onclick="openAddMembersModal()">
+                        Add Members
+                    </button>
+
+                    <button class="btn btn-sm btn-warning"
+                            onclick="renameCurrentGroup()">
+                        Rename
+                    </button>
+
+                    <button class="btn btn-sm btn-danger"
+                            onclick="leaveCurrentGroup()">
+                        Leave
+                    </button>
+
+                </div>
             </div>
 
         </div>
-
+        <!-- CHAT MESSAGES -->
         <div id="chatBox" class="chat-box flex-grow-1 d-flex flex-column"></div>
-
+        <!-- CHAT Input -->
         <div class="chat-input-wrapper">
 
             <div class="chat-input-box">
@@ -93,6 +153,43 @@
     </div>
 
 </div>
+
+<!-- ADD MEMBERS MODAL -->
+<div id="addMemberModal"
+     style="
+    display:none;
+    position:fixed;
+    top:20%;
+    left:40%;
+    width:320px;
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 0 20px rgba(0,0,0,.2);
+    z-index:9999;">
+
+    <h5>
+        Add Members
+    </h5>
+
+    <hr>
+
+    <div id="memberPicker"></div>
+
+    <br>
+
+    <button class="btn btn-primary"
+            onclick="saveSelectedMembers()">
+        Save
+    </button>
+
+    <button class="btn btn-secondary"
+            onclick="closeMemberModal()">
+        Cancel
+    </button>
+
+</div>
+
 
 <!-- Views/Chat/Index.cshtml -->
 <script src="https://cdn.jsdelivr.net/npm/@@microsoft/signalr@7.0.5/dist/browser/signalr.min.js"></script>

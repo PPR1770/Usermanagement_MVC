@@ -208,6 +208,45 @@
 }
 
 
+#groupList li {
+    font-weight: 600;
+}
+
+    #groupList li:hover {
+        background: #f1f1f1;
+    }
+
+.member-info-wrapper {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+/* hidden by default ALWAYS */
+.members-tooltip {
+    display: none !important;
+    position: absolute;
+    top: 28px;
+    left: 0;
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 12px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.15);
+    min-width: 180px;
+    z-index: 9999;
+}
+
+
+.members-tooltip div {
+    padding: 4px 0;
+    border-bottom: 1px solid #eee;
+}
+
+    .members-tooltip div:last-child {
+        border-bottom: none;
+    }
+
 /* Mobile */
 @media (max-width: 768px) {
     .chat-wrapper {

@@ -7,7 +7,7 @@
 
         // Sender & Receiver
         public string SenderId { get; set; }
-        public string ReceiverId { get; set; }
+        public string? ReceiverId { get; set; }
 
         // Message Content
         public string Message { get; set; }
@@ -23,7 +23,12 @@
         public string? FileType { get; set; } // image/pdf/video
         public string? FileName { get; set; }
 
+        // GROUP SUPPORT
+        public int? GroupId { get; set; }
+        public GroupChat? Group { get; set; }
+
         public ApplicationUser Sender { get; set; }
-        public ApplicationUser Receiver { get; set; }
+        public ApplicationUser? Receiver { get; set; }
+
     }
 }
